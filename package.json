@@ -1,0 +1,33 @@
+{
+  "name": "jest-coverage-thresholds-bumper",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Litee/jest-coverage-thresholds-bumper"
+  },
+  "description": "Tool for Jest testing library that automatically bumps up code coverage thresholds as real code coverage improves.",
+  "author": "Andrey Litee Lipatkin",
+  "keywords": [
+    "jest"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": "index.js",
+  "scripts": {
+    "pretest": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:update": "jest -u"
+  },
+  "dependencies": {
+    "yargs": "^15.4.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "@types/node": "^14.6.2",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.2"
+  }
+}
