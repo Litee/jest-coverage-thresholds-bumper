@@ -107,7 +107,7 @@ class JestConfigJsAdapter implements CoverageThresholdsAdapter {
 
     // TODO Support quoted threshold type keys
     getThresholdValue(thresholdType: string): number | "Unknown" | null {
-        const match = this.content.match(`${thresholdType}\\s*:\\s*(-?\\d+)`);
+        const match = this.content.match(`${thresholdType}\\s*:\\s*(-?\\d+(\\.\\d+)?)`);
         if (match && match.length > 1) {
             return parseInt(match[1]);
         }
@@ -115,7 +115,7 @@ class JestConfigJsAdapter implements CoverageThresholdsAdapter {
     }
 
     setThresholdValue(thresholdType: string, value: number): void {
-        this.content = this.content.replace(new RegExp(`(${thresholdType}\\s*:\\s*)(-?\\d+)`, "g"), `$1${value}`);
+        this.content = this.content.replace(new RegExp(`(${thresholdType}\\s*:\\s*)(-?\\d+(\\.\\d+)?)`, "g"), `$1${value}`);
     }
 
     saveIfDirty(): void {

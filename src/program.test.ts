@@ -9,37 +9,30 @@ jest.mock('./utils.ts', () => ({
 
 describe('when running execute function', () => {
     const saveNewThresholds = jest.fn();
-    const coverageSummaryFileAsObject = {"total": {"lines":{"total":1,"covered":0,"skipped":0,"pct":12},"statements":{"total":1,"covered":0,"skipped":0,"pct":23},"functions":{"total":0,"covered":0,"skipped":0,"pct":34},"branches":{"total":4,"covered":0,"skipped":0,"pct":45}}} as const;
-    let jestConfigJsonFileAsObject: any;
-    let packageJsonFileAsObject: any;
-    let jestConfigJsFile: any;
+    const coverageSummaryFileAsObject = {"total": {"lines":{"total":1,"covered":0,"skipped":0,"pct":12},"statements":{"total":1,"covered":0,"skipped":0,"pct":23.4},"functions":{"total":0,"covered":0,"skipped":0,"pct":34.56},"branches":{"total":4,"covered":0,"skipped":0,"pct":45.678}}} as const;
+    
+    // Some values are higher then values in summary, some values are negative - should not be changed, "statements" value is missing - should be ignored
+    const jestConfigJsonFileAsObject1 = {
+        "coverageThreshold": {
+            "global": {
+                "branches": 90,
+                "functions": -10,
+                "lines": 10,
+            },
+        },
+    } as const;
+    const jestConfigJsonFileAsObject2 = {
+        "coverageThreshold": {
+            "global": {
+                "branches": 1,
+                "functions": 2.3,
+                "lines": 3.45,
+            },
+        },
+    } as const;
     
     beforeEach(() => {
         jest.resetModules();
-        // Some values are higher then values in summary, some values are negative - should not be changed, "statements" value is missing - should be ignored
-        jestConfigJsonFileAsObject = {
-            "coverageThreshold": {
-                "global": {
-                    "branches": 90,
-                    "functions": -10,
-                    "lines": 10,
-                },
-            },
-        };
-        packageJsonFileAsObject = {
-            "name": "jest-coverage-thresholds-bumper-test",
-            "version": "0.0.1",
-            "jest": jestConfigJsonFileAsObject,
-        };
-        jestConfigJsFile = `module.exports = {
-            coverageThreshold: {
-                global: {
-                    branches: 90,
-                    functions: -10,
-                    lines: 10,
-                },
-            },
-        }`;
         fs.writeFileSync = jest.fn();
     });
 
@@ -50,7 +43,23 @@ describe('when running execute function', () => {
             }, {virtual: true});
         });
 
-        describe('and thresholds file has package.json format', () => {    
+        
+        describe.each([
+            {
+                packageJsonFileAsObject: {
+                    "name": "jest-coverage-thresholds-bumper-test",
+                    "version": "0.0.1",
+                    "jest": JSON.parse(JSON.stringify(jestConfigJsonFileAsObject1)),
+                },
+            },
+            {
+                packageJsonFileAsObject: {
+                    "name": "jest-coverage-thresholds-bumper-test",
+                    "version": "0.0.1",
+                    "jest": JSON.parse(JSON.stringify(jestConfigJsonFileAsObject2)),
+                },
+            },
+        ])('and thresholds file has package.json format', ({packageJsonFileAsObject}) => {    
             describe('and jest section exists', () => {
                 beforeEach(() => {
                     jest.mock("./package.json", () => {
@@ -79,7 +88,14 @@ describe('when running execute function', () => {
             });
         });
 
-        describe('and thresholds file has jest.config.json format', () => {
+        describe.each([
+            {
+                jestConfigJsonFileAsObject: JSON.parse(JSON.stringify(jestConfigJsonFileAsObject1)),
+            },
+            {
+                jestConfigJsonFileAsObject: JSON.parse(JSON.stringify(jestConfigJsonFileAsObject2)),
+            }
+        ])('and thresholds file has jest.config.json format', ({jestConfigJsonFileAsObject}) => {
             beforeEach(() => {
                 fs.existsSync = jest.fn((path) => {
                     console.debug(path);
@@ -115,7 +131,30 @@ describe('when running execute function', () => {
             });
         });
 
-        describe('and thresholds file has jest.config.js format', () => {
+        describe.each([
+            {
+                jestConfigJsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 90,
+                            functions: -10,
+                            lines: 10,
+                        },
+                    },
+                }` as any,
+            },
+            {
+                jestConfigJsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 10.0,
+                            functions: 1.12,
+                            lines: 0.987,
+                        },
+                    },
+                }` as any,
+            }
+        ])('and thresholds file has jest.config.js format', ({jestConfigJsFile}) => {
             beforeEach(() => {
                 fs.existsSync = jest.fn((path) => {
                     console.debug(path);
