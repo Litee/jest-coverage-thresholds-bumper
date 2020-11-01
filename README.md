@@ -2,15 +2,15 @@
 
 [![Build Status](https://travis-ci.org/Litee/jest-coverage-thresholds-bumper.png)](https://travis-ci.org/Litee/jest-coverage-thresholds-bumper)
 
-Tool for Jest testing library that automatically bumps up code coverage thresholds as real code coverage improves. Inspired by <https://github.com/Koleok/jest-coverage-ratchet>, but I decided to re-write without Ramda (looks cool, but not sure about readability) and to add basic support for `jest.config.js`.
+Tool for [Jest](https://jestjs.io/) testing library that automatically bumps up code coverage thresholds as real code coverage improves. Inspired by <https://github.com/Koleok/jest-coverage-ratchet>, but I decided to re-write without Ramda (it looks cool, but readability sucks IMO) and to add features I missed.
 
-This tools should be used with Jest testing library. It automatically bumps up code coverage values in `package.json` or `jest.config.json` or `jest.config.js` files if test results have improved.
+Tool supports `jest.config.json` and `jest.config.js` configuration files, as well as `jest` section in `package.json`.
 
-## The value
+## Value
 
-Code coverage by tests ideally should only increase. Automatically bumping thresholds enforces this policy. If one developer added new tests and improved the coverage, another developer won't be able to commit changes that decrease the coverage. Any required decrease in code coverage will be visible in pull requests and people are more likely to notice bad practices.
+Code coverage by tests may drop accidentally if you forget to cover new code with tests. It is easy to notice if your coverage thresholds are matching real coverage exactly. If you do have to decrease coverage then it has to be done explicitly and this fact will be more visible in pull requests.
 
-## How to install
+## Installation
 
 Assuming that you already have Jest installed, call:
 
@@ -18,16 +18,46 @@ Assuming that you already have Jest installed, call:
 
 ## Usage
 
-1. Make sure that Jest has code coverage enabled and uses `json-summary` reporter. It is needed to produce a JSON file with coverage results.
-1. Call this method after running tests, for example using `package.json` scripts:
+1. Make sure that Jest has code coverage enabled and uses `json-summary` reporter. It is needed to produce coverage results for analysis.
+2. Ensure that you have some threshold values specified (you can start with `0`). `jest-coverage-thresholds-bumper` only updates existing values. Example:
+
+```JavaScript
+// jest.config.js
+...
+  coverageThreshold: {
+    global: {
+      lines: 80,
+      statements: 80,
+      branches: 80,
+      functions: 80,
+    }
+  }
+...
+```
+
+3. Call `jest-coverage-thresholds-bumper` after running tests, for example:
 
 ```json
+// package.json
+...
 "scripts": {
-    "test": "jest && jest-coverage-thresholds-bumper"
+    "test": "jest",
+    "posttest": "jest-coverage-thresholds-bumper",
 }
+...
 ```
 
 When tool is called it finds coverage information, compares results with threshold values and bumps up values if results are higher. Note that only defined thresholds are bumped up - i.e. if no thresholds exists nothing will be bumped.
 
-* You may override path to coverage summary report using `--coverageSummaryPath <path>`  command-line option. If no parameter specified tool will search for `./coverage/coverage-summary.json` file.
-* You may specify custom path to Jest configuration file using `--coverageThresholdsPath <path>` command-line option. JSON and JS files are supported. If no parameter specified tool will look for `jest.config.json` and `jest.config.js` files first and if they are not available will try to find "jest" section in `package.json`.
+## Options
+
+```text
+Usage: jest-coverage-thresholds-bumper <command> [options]
+
+Options:
+  --coverage-summary-path  path to coverage results               [string] [default: "./coverage/coverage-summary.json"]
+  --margin                 minimal threshold increase                                              [number] [default: 0]
+  --dry-run                do analysis, but don't change any thresholds                                        [boolean]
+  --help                   Show help                                                                           [boolean]
+  --version                Show version number                                                                 [boolean]
+```

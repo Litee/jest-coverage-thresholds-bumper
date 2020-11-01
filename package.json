@@ -1,6 +1,6 @@
 {
   "name": "jest-coverage-thresholds-bumper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -15,7 +15,8 @@
   "types": "dist/index.d.ts",
   "bin": "index.js",
   "scripts": {
-    "pretest": "tsc",
+    "lint": "eslint --ext=ts,js --fix src *.js",
+    "pretest": "rm -rf dist && npm run lint && tsc",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:update": "jest -u"
@@ -26,8 +27,24 @@
   "devDependencies": {
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.2",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
     "jest": "^26.4.2",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.1.2",
     "ts-jest": "^26.4.0",
     "typescript": "^4.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js}": "eslint --cache --fix"
   }
 }

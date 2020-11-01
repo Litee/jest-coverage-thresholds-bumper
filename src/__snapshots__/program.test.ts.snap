@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`when running execute function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 1`] = `
+exports[`when running execute() function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -8,8 +8,6 @@ exports[`when running execute function and input files exist and thresholds file
       "module.exports = {
                     coverageThreshold: {
                         global: {
-                            branches: 90,
-                            functions: -10,
                             lines: 12,
                         },
                     },
@@ -25,7 +23,7 @@ exports[`when running execute function and input files exist and thresholds file
 }
 `;
 
-exports[`when running execute function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 2`] = `
+exports[`when running execute() function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 2`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -50,7 +48,32 @@ exports[`when running execute function and input files exist and thresholds file
 }
 `;
 
-exports[`when running execute function and input files exist and thresholds file has jest.config.json format and coverageThresholds section exists should update coverage thresholds 1`] = `
+exports[`when running execute() function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 3`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./jest.config.js",
+      "module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 45.678,
+                            functions: 30,
+                            lines: 10,
+                        },
+                    },
+                }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and thresholds file has jest.config.json format and coverageThresholds section exists should update coverage thresholds 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -75,7 +98,7 @@ exports[`when running execute function and input files exist and thresholds file
 }
 `;
 
-exports[`when running execute function and input files exist and thresholds file has jest.config.json format and coverageThresholds section exists should update coverage thresholds 2`] = `
+exports[`when running execute() function and input files exist and thresholds file has jest.config.json format and coverageThresholds section exists should update coverage thresholds 2`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -100,7 +123,7 @@ exports[`when running execute function and input files exist and thresholds file
 }
 `;
 
-exports[`when running execute function and input files exist and thresholds file has package.json format and jest section exists should update coverage thresholds 1`] = `
+exports[`when running execute() function and input files exist and thresholds file has package.json format and jest section exists should update coverage thresholds 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -129,7 +152,7 @@ exports[`when running execute function and input files exist and thresholds file
 }
 `;
 
-exports[`when running execute function and input files exist and thresholds file has package.json format and jest section exists should update coverage thresholds 2`] = `
+exports[`when running execute() function and input files exist and thresholds file has package.json format and jest section exists should update coverage thresholds 2`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -158,6 +181,6 @@ exports[`when running execute function and input files exist and thresholds file
 }
 `;
 
-exports[`when running execute function and input files exist and thresholds file has package.json format but jest section does not exist should fail 1`] = `"package.json file has no 'jest' section!"`;
+exports[`when running execute() function and input files exist and thresholds file has package.json format but jest section does not exist should fail 1`] = `"package.json file has no 'jest' section!"`;
 
-exports[`when running execute function and input files exist and thresholds file has package.json format but jest section does not exist should fail 2`] = `"package.json file has no 'jest' section!"`;
+exports[`when running execute() function and input files exist and thresholds file has package.json format but jest section does not exist should fail 2`] = `"package.json file has no 'jest' section!"`;
