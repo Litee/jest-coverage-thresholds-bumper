@@ -55,9 +55,10 @@ When tool is called it finds coverage information, compares results with thresho
 Usage: jest-coverage-thresholds-bumper <command> [options]
 
 Options:
-  --coverage-summary-path  path to coverage results               [string] [default: "./coverage/coverage-summary.json"]
-  --margin                 minimal threshold increase                                              [number] [default: 0]
-  --dry-run                do analysis, but don't change any thresholds                                        [boolean]
+  --coverage-summary-path  Path to Jest coverage results          [string] [default: "./coverage/coverage-summary.json"]
+  --margin                 Minimal threshold increase                                              [number] [default: 0]
+  --dry-run                Do analysis, but don't change any thresholds                                        [boolean]
+  --silent                 No console output unless something goes wrong                                       [boolean]
   --help                   Show help                                                                           [boolean]
   --version                Show version number                                                                 [boolean]
 ```

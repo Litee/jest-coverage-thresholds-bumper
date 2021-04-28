@@ -1,16 +1,17 @@
 import fs from "fs";
 import { findFileWithJestConfig } from "./jest-config-file-finder";
-import { ThresholdType } from "./program";
+import { getLogger } from "./logger";
+import { ThresholdType, TypedOptions } from "./program";
 
 export interface CoverageThresholdsAdapter {
     getThresholdValue(thresholdType: ThresholdType): number | null | "Unknown";
     setThresholdValue(thresholdType: ThresholdType, value: number): void;
-    saveIfDirty(dryRun: boolean): void;
+    saveIfDirty(options: TypedOptions): void;
 }
 
-export const createCoverageThresholdsAdapter = (): CoverageThresholdsAdapter => {
+export const createCoverageThresholdsAdapter = (options: TypedOptions): CoverageThresholdsAdapter => {
     const { filePath, fileType } = findFileWithJestConfig();
-    console.info(`Jest coverage thresholds file: ${filePath}`);
+    getLogger(options).info(`Jest coverage thresholds file: ${filePath}`);
     if (fileType === "package.json") {
         return new PackageJsonAdapter(filePath);
     }
@@ -29,17 +30,17 @@ interface JestConfig {
     };
 }
 
-const saveIfDirty = (filePath: string, oldContent: string, newContent: string, dryRun: boolean): void => {
+const saveIfDirty = (filePath: string, oldContent: string, newContent: string, options: TypedOptions): void => {
     if (oldContent !== newContent) {
-        if (dryRun) {
-            console.info("Changed detected, but not updating anything because of the dry run.");
+        if (options.dryRun) {
+            getLogger(options).info("Changed detected, but not updating anything because of the dry run.");
         } else {
-            console.info("Changed detected, saving new coverage thresholds...");
+            getLogger(options).info("Changed detected, saving new coverage thresholds...");
             fs.writeFileSync(filePath, newContent);
-            console.info(`Coverage thresholds saved: ${filePath}`);
+            getLogger(options).info(`Coverage thresholds saved: ${filePath}`);
         }
     } else {
-        console.info("No changes detected.");
+        getLogger(options).info("No changes detected.");
     }
 };
 
@@ -70,9 +71,9 @@ abstract class JsonAdapter<T> implements CoverageThresholdsAdapter {
         return JSON.stringify(contentAsObject, null, 2);
     }
 
-    public saveIfDirty(dryRun: boolean) {
+    public saveIfDirty(options: TypedOptions) {
         const newContent = this.serialize(this.contentAsObject);
-        saveIfDirty(this.filePath, this.originalContent, newContent, dryRun);
+        saveIfDirty(this.filePath, this.originalContent, newContent, options);
     }
 }
 
@@ -116,7 +117,7 @@ class JestConfigJsAdapter implements CoverageThresholdsAdapter {
         this.content = this.content.replace(new RegExp(`(${thresholdType}\\s*:\\s*)(-?\\d+(\\.\\d+)?)`, "g"), `$1${value}`);
     }
 
-    saveIfDirty(dryRun: boolean): void {
-        saveIfDirty(this.filePath, this.originalContent, this.content, dryRun);
+    saveIfDirty(options: TypedOptions): void {
+        saveIfDirty(this.filePath, this.originalContent, this.content, options);
     }
 }
