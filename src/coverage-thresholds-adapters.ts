@@ -21,7 +21,10 @@ export const createCoverageThresholdsAdapter = (options: TypedOptions): Coverage
     if (fileType === "jest.config.js") {
         return new JestConfigJsAdapter(filePath);
     }
-    throw Error(`Unsupported file format - use package.json or jest.config.json or jest.config.js. File: ${filePath}`);
+    if (fileType === "jest.config.ts") {
+        return new JestConfigJsAdapter(filePath);
+    }
+    throw Error(`Unsupported file format - use package.json, jest.config.json, jest.config.js or jest.config.ts. File: ${filePath}`);
 };
 
 interface JestConfig {
