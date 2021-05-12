@@ -208,5 +208,57 @@ describe("when running execute() function", () => {
                 expect(fs.writeFileSync).toMatchSnapshot();
             });
         });
+        describe.each([
+            {
+                jestConfigTsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            lines: 10,
+                        },
+                    },
+                }` as any,
+                margin: 0,
+            },
+            {
+                jestConfigTsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 10.0,
+                            functions: 1.12,
+                            lines: 0.987,
+                        },
+                    },
+                }` as any,
+                margin: 0,
+            },
+            {
+                jestConfigTsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 40,
+                            functions: 30,
+                            lines: 10,
+                        },
+                    },
+                }` as any,
+                margin: 5,
+            },
+        ])("and thresholds file has jest.config.ts format", ({ jestConfigTsFile, margin }) => {
+            beforeEach(() => {
+                fs.existsSync = jest.fn((path) => {
+                    console.debug(path);
+                    return path === "./jest.config.ts";
+                });
+                fs.readFileSync = jest.fn(() => {
+                    return jestConfigTsFile;
+                });
+            });
+
+            it("should update coverage thresholds", () => {
+                execute({ margin, dryRun: false });
+                expect(fs.writeFileSync).toBeCalled();
+                expect(fs.writeFileSync).toMatchSnapshot();
+            });
+        });
     });
 });
