@@ -4,7 +4,7 @@
 
 Tool for [Jest](https://jestjs.io/) testing library that automatically bumps up code coverage thresholds as real code coverage improves. Inspired by <https://github.com/Koleok/jest-coverage-ratchet>, but I decided to re-write without Ramda (it looks cool, but readability sucks IMO) and to add features I missed.
 
-Tool supports `jest.config.json` and `jest.config.js` configuration files, as well as `jest` section in `package.json`.
+Tool supports `jest.config.json`, `jest.config.js`, and `jest.config.ts` configuration files, as well as `jest` section in `package.json`.
 
 ## Value
 

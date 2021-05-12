@@ -208,6 +208,7 @@ describe("when running execute() function", () => {
                 expect(fs.writeFileSync).toMatchSnapshot();
             });
         });
+
         describe.each([
             {
                 jestConfigTsFile: `module.exports = {
