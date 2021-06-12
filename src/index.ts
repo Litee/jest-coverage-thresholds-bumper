@@ -9,7 +9,7 @@ const argv = yargs(process.argv.slice(2))
         type: "string",
     })
     .option("margin", {
-        describe: "Minimal threshold increase",
+        describe: "Minimal threshold increase in percent",
         default: DEFAULT_MARGIN,
         type: "number",
     })
