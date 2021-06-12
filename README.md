@@ -66,4 +66,5 @@ Options:
 ## FAQ
 
 Q: How `margin` parameter works? What is it for?
+
 A: Imagine that both real and expected coverage are at 90 percent and margin is 1 percent. If you add a tiny test that increases real coverage by only 0.5 percent then this tool won't bump up the expected coverage. If you add more tests and real coverage improves to 91 or mor percent then your threshold will increase. Some people may use `margin` parameter to ignore little fluctuations in code coverage during active development phase, which could often fail builds.
