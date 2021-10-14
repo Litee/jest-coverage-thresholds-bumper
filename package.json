@@ -1,6 +1,6 @@
 {
   "name": "jest-coverage-thresholds-bumper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -21,33 +21,32 @@
     "pretest": "rm -rf dist && npm run lint && tsc",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "test:update": "jest -u"
+    "test:update": "jest -u",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "yargs": "^17.0.1"
+    "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@types/node": "^14.14.43",
-    "@typescript-eslint/eslint-plugin": "^4.26.1",
-    "@typescript-eslint/parser": "^4.26.1",
-    "eslint": "^7.28.0",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^12.20.33",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^4.3.8",
-    "jest": "^27.0.4",
-    "lint-staged": "^10.5.4",
-    "npm-check-updates": "^11.6.0",
-    "prettier": "^2.3.1",
-    "ts-jest": "^27.0.3",
-    "typescript": "^4.3.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "eslint-plugin-prettier": "^3.4.1",
+    "husky": "^7.0.0",
+    "jest": "^27.2.5",
+    "lint-staged": "^11.2.3",
+    "npm-check-updates": "^11.8.5",
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.6",
+    "typescript": "^4.4.4"
   },
   "lint-staged": {
     "*.{ts,js}": "eslint --cache --fix"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }

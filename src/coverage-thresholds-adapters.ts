@@ -33,9 +33,9 @@ interface JestConfig {
 const saveIfDirty = (filePath: string, oldContent: string, newContent: string, options: TypedOptions): void => {
     if (oldContent !== newContent) {
         if (options.dryRun) {
-            getLogger(options).info("Changed detected, but not updating anything because of the dry run.");
+            getLogger(options).info("Changes detected, but not updating thresholds because of the dry run mode.");
         } else {
-            getLogger(options).info("Changed detected, saving new coverage thresholds...");
+            getLogger(options).info("Changes detected, saving new coverage thresholds...");
             fs.writeFileSync(filePath, newContent);
             getLogger(options).info(`Coverage thresholds saved: ${filePath}`);
         }
