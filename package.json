@@ -7,7 +7,7 @@
     "url": "https://github.com/Litee/jest-coverage-thresholds-bumper"
   },
   "description": "Tool for Jest testing library that automatically bumps up code coverage thresholds as real code coverage improves.",
-  "author": "Andrey Litee Lipatkin",
+  "author": "Andrey \"Litee\" Lipatkin",
   "keywords": [
     "jest"
   ],
@@ -48,5 +48,8 @@
   },
   "lint-staged": {
     "*.{ts,js}": "eslint --cache --fix"
+  },
+  "engines": {
+    "node": ">=10"
   }
 }

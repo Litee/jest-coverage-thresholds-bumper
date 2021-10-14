@@ -34,7 +34,7 @@ const updateThresholds = (coverageSummaryFileAsObject: CoverageSummary, coverage
             } else {
                 // Ignore negative values, they specify the maximum number of uncovered lines
                 if (oldValue === "Unknown" || (typeof oldValue === "number" && oldValue + options.margin < newValue)) {
-                    getLogger(options).info(`Bumping up "${thresholdType}" coverage threshold from ${oldValue} to ${newValue}.`);
+                    getLogger(options).info(`"${thresholdType}" coverage threshold should be changed from ${oldValue} to ${newValue}.`);
                     coverageThresholdAdapter.setThresholdValue(thresholdType, newValue);
                 } else {
                     const oldValueDescription = options.margin > 0 ? `current value ${oldValue} + margin ${options.margin}` : `current value ${oldValue}`;

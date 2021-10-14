@@ -2,13 +2,17 @@
 
 [![Build Status](https://travis-ci.org/Litee/jest-coverage-thresholds-bumper.png)](https://travis-ci.org/Litee/jest-coverage-thresholds-bumper)
 
-Tool for [Jest](https://jestjs.io/) testing library that automatically bumps up code coverage thresholds as real code coverage improves. Inspired by <https://github.com/Koleok/jest-coverage-ratchet>, but I decided to re-write without Ramda (it looks cool, but readability sucks IMO) and to add features I missed.
+Tool for [Jest](https://jestjs.io/) testing library that automatically bumps up code coverage thresholds as real code coverage improves. Inspired by <https://github.com/Koleok/jest-coverage-ratchet>, but I decided to re-implement without Ramda (it looks cool, but readability sucks IMO). I am also adding features I need. My team are using this tool for many months now, and it seems to be stable.
 
 Tool supports `jest.config.json`, `jest.config.js`, and `jest.config.ts` configuration files, as well as `jest` section in `package.json`.
 
 ## Value
 
-Code coverage by tests may drop accidentally if you forget to cover new code with tests. It is easy to notice if your coverage thresholds are matching real coverage exactly. If you do have to decrease coverage then it has to be done explicitly and this fact will be more visible in pull requests.
+Sometimes you may forget to cover some of your new code with tests. Jest helps to detect that - it it compares code coverage against configured thresholds and fails if there are not enough tests (see https://jestjs.io/docs/configuration#coveragethreshold-object). Unfortunately, it only works if your thresholds are always up to date - e.g. if your specified threshold is 90% and your coverage drops from 92% to 91% then Jest will fail to see that.
+
+`jest-coverage-thresholds-bumper` helps to regularly update configured thresholds, so if your real coverage drops then Jest will report it immediately.
+
+Note that sometimes it could be perfectly normal to decrease configured thresholds (e.g. if you removed a chunk of 100% covered code). In this case, you will have to update threshold values in Jest config and include it into your pull request. This way reviewers will have better visibility on the code coverage impact and why it happens.
 
 ## Installation
 
@@ -56,9 +60,19 @@ Usage: jest-coverage-thresholds-bumper <command> [options]
 
 Options:
   --coverage-summary-path  Path to Jest coverage results          [string] [default: "./coverage/coverage-summary.json"]
-  --margin                 Minimal threshold increase                                              [number] [default: 0]
+  --margin                 Minimal threshold increase in percent                                   [number] [default: 0]
   --dry-run                Do analysis, but don't change any thresholds                                        [boolean]
   --silent                 No console output unless something goes wrong                                       [boolean]
   --help                   Show help                                                                           [boolean]
   --version                Show version number                                                                 [boolean]
 ```
+
+## FAQ
+
+Q: How `margin` parameter works? What is it for?
+
+A: Imagine that both real and expected coverage are at 90 percent and margin is 1 percent. If you add a tiny test that increases real coverage by only 0.5 percent then this tool won't bump up the expected coverage. If you add more tests and real coverage improves to 91 or mor percent then your threshold will increase. Some people may use `margin` parameter to ignore little fluctuations in code coverage during active development phase, which could often fail builds.
+
+Q: Which NodeJS versions do you support?
+
+A: I am aiming for all currently supported LTS versions. Package might work with older versions, but I am not testing it and won't be fixing issues that happen only with those old versions.
