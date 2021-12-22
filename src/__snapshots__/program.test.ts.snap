@@ -73,6 +73,79 @@ exports[`when running execute() function and input files exist and thresholds fi
 }
 `;
 
+exports[`when running execute() function and input files exist and thresholds file has jest.config.js format specified as argument should update coverage thresholds 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./custom/jest.custom.config.js",
+      "module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            lines: 12,
+                        },
+                    },
+                }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and thresholds file has jest.config.js format specified as argument should update coverage thresholds 2`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./custom/jest.custom.config.js",
+      "module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 45.678,
+                            functions: 34.56,
+                            lines: 12,
+                        },
+                    },
+                }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and thresholds file has jest.config.js format specified as argument should update coverage thresholds 3`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./custom/jest.custom.config.js",
+      "module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 45.678,
+                            functions: 30,
+                            lines: 10,
+                        },
+                    },
+                }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
 exports[`when running execute() function and input files exist and thresholds file has jest.config.json format and coverageThresholds section exists should update coverage thresholds 1`] = `
 [MockFunction] {
   "calls": Array [
@@ -103,6 +176,56 @@ exports[`when running execute() function and input files exist and thresholds fi
   "calls": Array [
     Array [
       "./jest.config.json",
+      "{
+  \\"coverageThreshold\\": {
+    \\"global\\": {
+      \\"branches\\": 45.678,
+      \\"functions\\": 34.56,
+      \\"lines\\": 12
+    }
+  }
+}",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and thresholds file has jest.config.json format specified as an argument and coverageThresholds section exists should update coverage thresholds 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./custom/jest.custom.config.json",
+      "{
+  \\"coverageThreshold\\": {
+    \\"global\\": {
+      \\"branches\\": 90,
+      \\"functions\\": -10,
+      \\"lines\\": 12
+    }
+  }
+}",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and thresholds file has jest.config.json format specified as an argument and coverageThresholds section exists should update coverage thresholds 2`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./custom/jest.custom.config.json",
       "{
   \\"coverageThreshold\\": {
     \\"global\\": {

@@ -2,6 +2,7 @@ import fs from "fs";
 import { findFileWithJestConfig } from "./jest-config-file-finder";
 import { getLogger } from "./logger";
 import { ThresholdType, TypedOptions } from "./program";
+import mime from "mime-types";
 
 export interface CoverageThresholdsAdapter {
     getThresholdValue(thresholdType: ThresholdType): number | null | "Unknown";
@@ -9,7 +10,16 @@ export interface CoverageThresholdsAdapter {
     saveIfDirty(options: TypedOptions): void;
 }
 
-export const createCoverageThresholdsAdapter = (options: TypedOptions): CoverageThresholdsAdapter => {
+export const createCoverageThresholdsAdapter = (options: TypedOptions, configFilePath?: string): CoverageThresholdsAdapter => {
+    if (configFilePath) {
+        const mimeType = mime.lookup(configFilePath);
+        if (mimeType === "application/json") {
+            return new JestConfigJsonAdapter(configFilePath);
+        } else if (mimeType === "application/javascript") {
+            return new JestConfigJsAdapter(configFilePath);
+        }
+        throw `Unsupported config file Specified!. Path: ${configFilePath}`;
+    }
     const { filePath, fileType } = findFileWithJestConfig();
     getLogger(options).info(`Jest coverage thresholds file: ${filePath}`);
     if (fileType === "package.json") {

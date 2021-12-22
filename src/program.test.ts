@@ -158,6 +158,57 @@ describe("when running execute() function", () => {
 
         describe.each([
             {
+                jestConfigJsonFileAsObject: JSON.parse(JSON.stringify(jestConfigJsonFileAsObject1)),
+            },
+            {
+                jestConfigJsonFileAsObject: JSON.parse(JSON.stringify(jestConfigJsonFileAsObject2)),
+            },
+        ])("and thresholds file has jest.config.json format specified as an argument", ({ jestConfigJsonFileAsObject }) => {
+            beforeEach(() => {
+                fs.existsSync = jest.fn((path) => {
+                    console.debug(path);
+                    return path === "./custom/jest.custom.config.json";
+                });
+            });
+
+            describe("and coverageThresholds section exists", () => {
+                beforeEach(() => {
+                    jest.mock(
+                        "./custom/jest.custom.config.json",
+                        () => {
+                            return jestConfigJsonFileAsObject;
+                        },
+                        { virtual: true }
+                    );
+                });
+
+                it("should update coverage thresholds", () => {
+                    execute({ dryRun: false, configFilePath: "./custom/jest.custom.config.json" });
+                    expect(fs.writeFileSync).toBeCalled();
+                    expect(fs.writeFileSync).toMatchSnapshot();
+                });
+            });
+
+            describe("but coverageThresholds section does not exist", () => {
+                beforeEach(() => {
+                    jest.mock(
+                        "./custom/jest.custom.config.json",
+                        () => {
+                            return {};
+                        },
+                        { virtual: true }
+                    );
+                });
+
+                it("should not update the file", () => {
+                    execute({ dryRun: false, configFilePath: "./custom/jest.custom.config.json" });
+                    expect(fs.writeFileSync).not.toBeCalled();
+                });
+            });
+        });
+
+        describe.each([
+            {
                 jestConfigJsFile: `module.exports = {
                     coverageThreshold: {
                         global: {
@@ -204,6 +255,58 @@ describe("when running execute() function", () => {
 
             it("should update coverage thresholds", () => {
                 execute({ margin, dryRun: false });
+                expect(fs.writeFileSync).toBeCalled();
+                expect(fs.writeFileSync).toMatchSnapshot();
+            });
+        });
+        describe.each([
+            {
+                jestConfigJsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            lines: 10,
+                        },
+                    },
+                }` as any,
+                margin: 0,
+            },
+            {
+                jestConfigJsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 10.0,
+                            functions: 1.12,
+                            lines: 0.987,
+                        },
+                    },
+                }` as any,
+                margin: 0,
+            },
+            {
+                jestConfigJsFile: `module.exports = {
+                    coverageThreshold: {
+                        global: {
+                            branches: 40,
+                            functions: 30,
+                            lines: 10,
+                        },
+                    },
+                }` as any,
+                margin: 5,
+            },
+        ])("and thresholds file has jest.config.js format specified as argument", ({ jestConfigJsFile, margin }) => {
+            beforeEach(() => {
+                fs.existsSync = jest.fn((path) => {
+                    console.debug(path);
+                    return path === "./custom/jest.custom.config.js";
+                });
+                fs.readFileSync = jest.fn(() => {
+                    return jestConfigJsFile;
+                });
+            });
+
+            it("should update coverage thresholds", () => {
+                execute({ margin, dryRun: false, configFilePath: "./custom/jest.custom.config.js" });
                 expect(fs.writeFileSync).toBeCalled();
                 expect(fs.writeFileSync).toMatchSnapshot();
             });

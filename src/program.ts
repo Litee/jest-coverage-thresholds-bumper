@@ -88,7 +88,7 @@ export const execute = (argv: Record<string, unknown>): void => {
         getLogger(options).info(`Running Jest Coverage Thresholds Bumper v${packageJson.version}...`);
         const coverageSummaryFilePath = getCoverageSummaryFilePath(argv.coverageSummaryPath, options);
         const coverageSummaryFileAsObject = loadCoverageSummary(coverageSummaryFilePath, options);
-        const coverageThresholdManager = createCoverageThresholdsAdapter(options);
+        const coverageThresholdManager = createCoverageThresholdsAdapter(options, argv.configFilePath as string);
         getLogger(options).info("Jest configuration and code coverage data loaded. Analyzing...");
         updateThresholds(coverageSummaryFileAsObject, coverageThresholdManager, options);
         coverageThresholdManager.saveIfDirty(options);
