@@ -1,24 +1,23 @@
 import fs from "fs";
-import { findFileWithJestConfig } from "./jest-config-file-finder";
-import { getLogger } from "./logger";
-import { ThresholdType, TypedOptions } from "./program";
+import { JestConfigFileType } from "./jest-config-file-finder";
+import { ThresholdType, Context } from "./program";
 
 export interface CoverageThresholdsAdapter {
     getThresholdValue(thresholdType: ThresholdType): number | null | "Unknown";
     setThresholdValue(thresholdType: ThresholdType, value: number): void;
-    saveIfDirty(options: TypedOptions): void;
+    saveIfDirty(context: Context): void;
 }
 
-export const createCoverageThresholdsAdapter = (options: TypedOptions): CoverageThresholdsAdapter => {
-    const { filePath, fileType } = findFileWithJestConfig();
-    getLogger(options).info(`Jest coverage thresholds file: ${filePath}`);
-    if (fileType === "package.json") {
+export const createCoverageThresholdsAdapter = ({ logger, jestConfigFileInfo }: Context): CoverageThresholdsAdapter => {
+    const { filePath, fileType } = jestConfigFileInfo;
+    logger.info(`Jest coverage thresholds file: ${filePath}`);
+    if (fileType === JestConfigFileType.PACKAGE_JSON) {
         return new PackageJsonAdapter(filePath);
     }
-    if (fileType === "jest.config.json") {
+    if (fileType === JestConfigFileType.JSON) {
         return new JestConfigJsonAdapter(filePath);
     }
-    if (fileType === "jest.config.js" || fileType === "jest.config.ts") {
+    if (fileType === JestConfigFileType.JS_OR_TS) {
         return new JestConfigJsAdapter(filePath);
     }
     throw Error(`Unsupported file format - use package.json, jest.config.json, jest.config.js or jest.config.ts. File: ${filePath}`);
@@ -30,17 +29,17 @@ interface JestConfig {
     };
 }
 
-const saveIfDirty = (filePath: string, oldContent: string, newContent: string, options: TypedOptions): void => {
+const saveIfDirty = (filePath: string, oldContent: string, newContent: string, { logger, options }: Context): void => {
     if (oldContent !== newContent) {
         if (options.dryRun) {
-            getLogger(options).info("Changes detected, but not updating thresholds because of the dry run mode.");
+            logger.info("Changes detected, but not updating thresholds because of the dry run mode.");
         } else {
-            getLogger(options).info("Changes detected, saving new coverage thresholds...");
+            logger.info("Changes detected, saving new coverage thresholds...");
             fs.writeFileSync(filePath, newContent);
-            getLogger(options).info(`Coverage thresholds saved: ${filePath}`);
+            logger.info(`Coverage thresholds saved: ${filePath}`);
         }
     } else {
-        getLogger(options).info("No changes detected.");
+        logger.info("No changes detected.");
     }
 };
 
@@ -71,9 +70,9 @@ abstract class JsonAdapter<T> implements CoverageThresholdsAdapter {
         return JSON.stringify(contentAsObject, null, 2);
     }
 
-    public saveIfDirty(options: TypedOptions) {
+    public saveIfDirty(context: Context): void {
         const newContent = this.serialize(this.contentAsObject);
-        saveIfDirty(this.filePath, this.originalContent, newContent, options);
+        saveIfDirty(this.filePath, this.originalContent, newContent, context);
     }
 }
 
@@ -117,7 +116,7 @@ class JestConfigJsAdapter implements CoverageThresholdsAdapter {
         this.content = this.content.replace(new RegExp(`(${thresholdType}\\s*:\\s*)(-?\\d+(\\.\\d+)?)`, "g"), `$1${value}`);
     }
 
-    saveIfDirty(options: TypedOptions): void {
-        saveIfDirty(this.filePath, this.originalContent, this.content, options);
+    public saveIfDirty(context: Context): void {
+        saveIfDirty(this.filePath, this.originalContent, this.content, context);
     }
 }

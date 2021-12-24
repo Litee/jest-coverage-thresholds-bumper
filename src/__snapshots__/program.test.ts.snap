@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`when running execute() function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 1`] = `
+exports[`when running execute() function and input files exist and file extension is .js and thresholds file has jest.config.js format should update coverage thresholds 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
       "./jest.config.js",
       "module.exports = {
-                    coverageThreshold: {
-                        global: {
-                            lines: 12,
+                        coverageThreshold: {
+                            global: {
+                                lines: 12,
+                            },
                         },
-                    },
-                }",
+                    }",
     ],
   ],
   "results": Array [
@@ -23,20 +23,18 @@ exports[`when running execute() function and input files exist and thresholds fi
 }
 `;
 
-exports[`when running execute() function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 2`] = `
+exports[`when running execute() function and input files exist and file extension is .js and thresholds file has jest.config.js format should update coverage thresholds 2`] = `
 [MockFunction] {
   "calls": Array [
     Array [
-      "./jest.config.js",
+      "./mockDir/mockFile.config.js",
       "module.exports = {
-                    coverageThreshold: {
-                        global: {
-                            branches: 45.678,
-                            functions: 34.56,
-                            lines: 12,
+                        coverageThreshold: {
+                            global: {
+                                lines: 12,
+                            },
                         },
-                    },
-                }",
+                    }",
     ],
   ],
   "results": Array [
@@ -48,20 +46,141 @@ exports[`when running execute() function and input files exist and thresholds fi
 }
 `;
 
-exports[`when running execute() function and input files exist and thresholds file has jest.config.js format should update coverage thresholds 3`] = `
+exports[`when running execute() function and input files exist and file extension is .js and thresholds file has jest.config.js format should update coverage thresholds 3`] = `
 [MockFunction] {
   "calls": Array [
     Array [
       "./jest.config.js",
       "module.exports = {
-                    coverageThreshold: {
-                        global: {
-                            branches: 45.678,
-                            functions: 30,
-                            lines: 10,
+                        coverageThreshold: {
+                            global: {
+                                branches: 45.678,
+                                functions: 34.56,
+                                lines: 12,
+                            },
                         },
-                    },
-                }",
+                    }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and file extension is .js and thresholds file has jest.config.js format should update coverage thresholds 4`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./jest.config.js",
+      "module.exports = {
+                        coverageThreshold: {
+                            global: {
+                                branches: 45.678,
+                                functions: 30,
+                                lines: 10,
+                            },
+                        },
+                    }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and file extension is .ts and thresholds file has jest.config.ts format should update coverage thresholds 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./jest.config.ts",
+      "module.exports = {
+                        coverageThreshold: {
+                            global: {
+                                lines: 12,
+                            },
+                        },
+                    }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and file extension is .ts and thresholds file has jest.config.ts format should update coverage thresholds 2`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./mockDir/mockFile.config.ts",
+      "module.exports = {
+                        coverageThreshold: {
+                            global: {
+                                lines: 12,
+                            },
+                        },
+                    }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and file extension is .ts and thresholds file has jest.config.ts format should update coverage thresholds 3`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./jest.config.ts",
+      "module.exports = {
+                        coverageThreshold: {
+                            global: {
+                                branches: 45.678,
+                                functions: 34.56,
+                                lines: 12,
+                            },
+                        },
+                    }",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`when running execute() function and input files exist and file extension is .ts and thresholds file has jest.config.ts format should update coverage thresholds 4`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "./jest.config.ts",
+      "module.exports = {
+                        coverageThreshold: {
+                            global: {
+                                branches: 45.678,
+                                functions: 30,
+                                lines: 10,
+                            },
+                        },
+                    }",
     ],
   ],
   "results": Array [
@@ -123,68 +242,20 @@ exports[`when running execute() function and input files exist and thresholds fi
 }
 `;
 
-exports[`when running execute() function and input files exist and thresholds file has jest.config.ts format should update coverage thresholds 1`] = `
+exports[`when running execute() function and input files exist and thresholds file has jest.config.json format and coverageThresholds section exists should update coverage thresholds 3`] = `
 [MockFunction] {
   "calls": Array [
     Array [
-      "./jest.config.ts",
-      "module.exports = {
-                    coverageThreshold: {
-                        global: {
-                            lines: 12,
-                        },
-                    },
-                }",
-    ],
-  ],
-  "results": Array [
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-  ],
-}
-`;
-
-exports[`when running execute() function and input files exist and thresholds file has jest.config.ts format should update coverage thresholds 2`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      "./jest.config.ts",
-      "module.exports = {
-                    coverageThreshold: {
-                        global: {
-                            branches: 45.678,
-                            functions: 34.56,
-                            lines: 12,
-                        },
-                    },
-                }",
-    ],
-  ],
-  "results": Array [
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-  ],
-}
-`;
-
-exports[`when running execute() function and input files exist and thresholds file has jest.config.ts format should update coverage thresholds 3`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      "./jest.config.ts",
-      "module.exports = {
-                    coverageThreshold: {
-                        global: {
-                            branches: 45.678,
-                            functions: 30,
-                            lines: 10,
-                        },
-                    },
-                }",
+      "./mockDir/mockFile.json",
+      "{
+  \\"coverageThreshold\\": {
+    \\"global\\": {
+      \\"branches\\": 90,
+      \\"functions\\": -10,
+      \\"lines\\": 12
+    }
+  }
+}",
     ],
   ],
   "results": Array [

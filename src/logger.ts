@@ -1,6 +1,10 @@
-import { TypedOptions } from "./program";
+export interface LoggerOptions {
+    readonly silent: boolean;
+}
 
-export const getLogger = (options: TypedOptions) => ({
+export type Logger = Pick<typeof console, "info" | "warn">;
+
+export const getLogger = (options: LoggerOptions): Logger => ({
     info(message?: any, ...optionalParams: any[]) {
         if (!options.silent) {
             console.info(message, ...optionalParams);

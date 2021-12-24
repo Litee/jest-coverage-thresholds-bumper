@@ -23,7 +23,7 @@ Assuming that you already have Jest installed, call:
 ## Usage
 
 1. Make sure that Jest has code coverage enabled and uses `json-summary` reporter. It is needed to produce coverage results for analysis.
-2. Ensure that you have some threshold values specified (you can start with `0`). `jest-coverage-thresholds-bumper` only updates existing values. Example:
+2. Ensure that you have some threshold values specified in Jest config file (you can start with `0`). `jest-coverage-thresholds-bumper` only updates existing values. Example:
 
 ```JavaScript
 // jest.config.js
@@ -51,7 +51,7 @@ Assuming that you already have Jest installed, call:
 ...
 ```
 
-When tool is called it finds coverage information, compares results with threshold values and bumps up values if results are higher. Note that only defined thresholds are bumped up - i.e. if no thresholds exists nothing will be bumped.
+When the tool is called, it finds coverage information, compares results with stored threshold values, and bumps up threshold values if results are higher. Note that only defined thresholds are bumped up - i.e. if no thresholds exist, nothing will be bumped.
 
 ## Options
 
@@ -59,20 +59,21 @@ When tool is called it finds coverage information, compares results with thresho
 Usage: jest-coverage-thresholds-bumper <command> [options]
 
 Options:
-  --coverage-summary-path  Path to Jest coverage results          [string] [default: "./coverage/coverage-summary.json"]
-  --margin                 Minimal threshold increase in percent                                   [number] [default: 0]
-  --dry-run                Do analysis, but don't change any thresholds                                        [boolean]
-  --silent                 No console output unless something goes wrong                                       [boolean]
-  --help                   Show help                                                                           [boolean]
-  --version                Show version number                                                                 [boolean]
+  --coverage-summary-path  Path to Jest coverage results                                                    [string] [default: ./coverage/coverage-summary.json]
+  --config-path            Path to Jest config file                         [string] [default: Search for jest.config.* files or "jest" section in package.json]
+  --margin                 Minimal threshold increase in per cent                                                                          [number] [default: 0]
+  --dry-run                Do analysis, but don't change any thresholds                                                               [boolean] [default: false]
+  --silent                 No console output unless something goes wrong                                                              [boolean] [default: false]
+  --help                   Show help                                                                                                                   [boolean]
+  --version                Show version number                                                                                                         [boolean]
 ```
 
 ## FAQ
 
 Q: How `margin` parameter works? What is it for?
 
-A: Imagine that both real and expected coverage are at 90 percent and margin is 1 percent. If you add a tiny test that increases real coverage by only 0.5 percent then this tool won't bump up the expected coverage. If you add more tests and real coverage improves to 91 or mor percent then your threshold will increase. Some people may use `margin` parameter to ignore little fluctuations in code coverage during active development phase, which could often fail builds.
+A: Imagine that both real and expected coverage are at 90 percent and the margin is 1 percent. If you add a tiny test that increases real coverage by only 0.5 percent then this tool won't bump up the expected coverage. If you add more tests and real coverage improves to 91 or mor percent then your threshold will increase. Some people may use `margin` parameter to ignore little fluctuations in code coverage during active development phase, which could fail builds.
 
 Q: Which NodeJS versions do you support?
 
-A: I am aiming for all currently supported LTS versions. Package might work with older versions, but I am not testing it and won't be fixing issues that happen only with those old versions.
+A: I am aiming for all currently supported LTS versions. Package might work with older versions, but I am not testing it and won't be fixing issues that happen only with those old versions. Current minimal version is NodeJS v12.
