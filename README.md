@@ -1,6 +1,7 @@
 # jest-coverage-thresholds-bumper
 
-[![Build Status](https://travis-ci.org/Litee/jest-coverage-thresholds-bumper.png)](https://travis-ci.org/Litee/jest-coverage-thresholds-bumper)
+[![Build Status](https://ci.appveyor.com/api/projects/status/g4dect73syi3ylu7?svg=true
+)](https://ci.appveyor.com/api/projects/status/g4dect73syi3ylu7?svg=true)
 
 Tool for [Jest](https://jestjs.io/) testing library that automatically bumps up code coverage thresholds as real code coverage improves. Inspired by <https://github.com/Koleok/jest-coverage-ratchet>, but I decided to re-implement without Ramda (it looks cool, but readability sucks IMO). I am also adding features I need. My team are using this tool for many months now, and it seems to be stable.
 
